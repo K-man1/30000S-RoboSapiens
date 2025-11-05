@@ -1,0 +1,32 @@
+53.721, 10.462, 97.67
+53.773, 12.462, 97.25
+53.855, 14.46, 96.775
+53.975, 16.456, 95.63
+54.146, 18.449, 94.946
+54.375, 20.435, 93.315
+54.681, 22.412, 92.356
+55.081, 24.371, 90.134
+55.595, 26.303, 87.526
+56.251, 28.192, 84.576
+57.075, 30.013, 81.519
+58.092, 31.733, 78.344
+59.314, 33.314, 75.035
+60.734, 34.719, 71.574
+62.329, 35.923, 67.935
+64.061, 36.921, 64.09
+65.891, 37.725, 59.998
+67.787, 38.359, 55.606
+69.724, 38.853, 50.835
+71.689, 39.225, 45.566
+73.67, 39.495, 39.602
+75.661, 39.683, 32.563
+77.658, 39.805, 23.503
+79.831, 39.867, 0
+79.831, 39.867, 0
+99.823, 40.441, 0
+endData
+127
+100
+200
+53.721, 10.462, 54.098, 30.827, 58.129, 39.556, 79.831, 39.867
+#PATH.JERRYIO-DATA {"appVersion":"0.10.0","format":"LemLib v0.5","gc":{"robotWidth":18,"robotHeight":18,"robotIsHolonomic":false,"showRobot":false,"uol":2.54,"pointDensity":2,"controlMagnetDistance":1.968503937007874,"fieldImage":{"displayName":"V5RC 2026 - Push Back","signature":"V5RC-PushBack-H2H-TopDownHighlighted-TileColor66_71","origin":{"__type":"built-in"}},"coordinateSystem":"VEX Gaming Positioning System"},"paths":[{"segments":[{"controls":[{"uid":"hsNEW37GYT","x":53.72085368766242,"y":10.46222826567801,"lock":false,"visible":true,"heading":0,"__type":"end-point"},{"uid":"sYcvkpE2P0","x":54.09759644547545,"y":30.827289598068003,"lock":false,"visible":true,"__type":"control"},{"uid":"8ygaEBl3z0","x":58.12874984020332,"y":39.55571364965011,"lock":false,"visible":true,"__type":"control"},{"uid":"ahydtdjjWh","x":79.83144630770428,"y":39.86746417724899,"lock":false,"visible":true,"heading":91.30000000000031,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"4xwxltPKBq"}],"pc":{"speedLimit":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":127,"label":"127"},"step":1,"from":20,"to":100},"bentRateApplicableRange":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":1,"label":"1"},"step":0.001,"from":0,"to":0.1},"maxDecelerationRate":127},"name":"Path","uid":"X7FjgZe7Qh","lock":false,"visible":true}]}
