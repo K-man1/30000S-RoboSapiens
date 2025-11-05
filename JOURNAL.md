@@ -16,3 +16,16 @@ We started the CAD of our robot with a drivetrain. So far, we are sticking with 
 The CAD itself took around 3 hours cuz Fusion is... Fusion.
   
 
+## 11/5/2025 - Asterisk Drive   
+
+We recently saw a video by VEX alumni(7862U) that used a really "unknown" drivetrain, called the asterisk drive. Its basically an omnidirectional X-Drive with 2 omni-wheels, for extra pushing power. We thought this was an interesting idea and might implement it.
+
+Due to the lack of information on this drivetrain, research and CAD took us a while.
+
+![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6ODY4MCwicHVyIjoiYmxvYl9pZCJ9fQ==--e6976c2f83cf1cc6b271f61f4496f556d95cbdd1/image.png)![image](/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6ODY4MSwicHVyIjoiYmxvYl9pZCJ9fQ==--c905c7b58878869b60a36aafbed5a3f4e464c0b4/image.png)![image](/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6ODY4MiwicHVyIjoiYmxvYl9pZCJ9fQ==--6334c3f101fc79533692d4b66a3a3387f81473ee/image.png)![image](/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6ODY4MywicHVyIjoiYmxvYl9pZCJ9fQ==--2c3b128040d7f463dd6be927d40c9d0a7eb6ce34/image.png)
+
+
+
+
+  
+
