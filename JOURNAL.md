@@ -16,7 +16,7 @@ We started the CAD of our robot with a drivetrain. So far, we are sticking with 
 The CAD itself took around 3 hours cuz Fusion is... Fusion.
   
 
-## 11/5/2025 - Asterisk Drive   
+## 11/5/2025 12 PM - Asterisk Drive   
 
 We recently saw a video by VEX alumni(7862U) that used a really "unknown" drivetrain, called the asterisk drive. Its basically an omnidirectional X-Drive with 2 omni-wheels, for extra pushing power. We thought this was an interesting idea and might implement it.
 
@@ -26,6 +26,30 @@ Due to the lack of information on this drivetrain, research and CAD took us a wh
 
 
 
+
+  
+
+## 11/5/2025 6 PM - New Drivetrain  
+
+After CADing the Asteirks Drive, we DMed the creators of the video (i linked it below this time) on Instagram and this is the feedback we got:
+"
+1) it's bulkier than a well-built tank drive. I think the asterisk I designed is almost as compact as you can make it. It's also a bit heavier because of all of the extra nuts, bolts, and gussets used on the 45° joints.
+
+2) It's harder (but definitely possible) to mount the rest of your bot on it since it has the 45° portions.
+
+3) You need to make sure there aren't any misalignments in the structure. For x-drives in general, any misalignments (particularly in the gusset joints) might make it drive weird.
+
+4) Since the gearing I chose is super fast, putting heavy mechanisms on top will really hurt acceleration. You have to really focus on building light. If you have them, you can put nylon nuts on the gusset joints to save some weight.
+"
+
+Also, with our inexperience, competitions coming soon, and advice from a new team member we decided to switch back to a standard drivetrain. However, this time, instead of 450 RPM 2.75 inch wheels, we have decided to do 3.25 inch wheels. We did this because of the better speed.
+
+![IMG_0923](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6ODc1NSwicHVyIjoiYmxvYl9pZCJ9fQ==--0e3992d6b2a5d5ac0cc3cbe24f4efed4cf087197/IMG_0923.png)
+
+As seen in the image, we also got a 3d printed aligner at the back of the bot.![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6ODc1NiwicHVyIjoiYmxvYl9pZCJ9fQ==--cb83dceaece204c45b087f917321ca1f459a33a1/image.png)
+
+
+Heres the link to the Asterisk drive vid: youtube.com/watch?v=ozrzNRZ27lM&t=75s&themeRefresh=1
 
   
 
