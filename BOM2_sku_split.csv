@@ -1,18 +1,18 @@
-SKU,Product name,Product Description,Product cost,Product amount,Product running total,,
-276-4852,Distance Sensor,Used make MCL algorithm,49.69,4,211.93,,
-276-4359,1x3x1x35 Aluminum C- Channel (6-pack),"Structure, we used 3 wides to save money by cutting them in half to make L-Channels",42.99,1,45.84,,
-217-6350,"Straight Flex Wheel (1.625"" OD x 1/2"" WD, 1/2"" Hex Bore, 30A)",Used for intake,2.99,4,12.75,,
-217-7947,"1/2"" VersaHex Adapters v2 (1/4"" Square Bore, 1/4"" Long) (8 Pack)",Adapters for flex wheels,4.99,2,10.64,,
-217-6353,"Straight Flex Wheel (2"" OD x 1/2"" WD, 1/2"" Hex Bore, 30A)",Also for intake,2.99,4,12.75,,
-276-2214,Tank Tread Upgrade Kit,Ramp,29.99,2,63.95,,
-276-9044,2” Omni-Directional Wheel (4-Pack),Used for odometry,23.59,1,25.15,,
-276-3521,High Strength Shaft Bearing (10-Pack),Bearing for HS Shafts,9.69,1,10.33,,
-276-8383,High Strength Pillow Block (10-pack),Used for intake,9.69,1,10.33,,
-276-7465,"24"" High Strength Shaft (2-Pack)",Ramp,18.49,1,19.71,,
-276-3441,High Strength Shaft Spacer Kit,Spacers for Ramp,11.89,2,25.36,,
-276-6050,Rotation Sensor,Used for odometry,42.99,2,91.68,,
-276-4855,Inertial Sensor,IMU for programming,53.99,1,57.57,,
-276-2290,1x5x1x25 Aluminum C- Channel (6-pack),Used to make L-channels to save money,47.39,1,50.53,,
-276-8328,"16T Sprocket, 6P (8-pack)",Ramp sprockets,26.79,1,28.56,,821.51
-276-2172,Additional High Strength Chain,Ramp chain,29.99,4,127.91,,
-276-3878,18T High Strength Sprocket (4-Pack),Ramp sprockets,15.49,1,16.52,,
+SKU,Product name,Product Description,Product Link,Product cost,Product amount,Product running total
+276-4852,Distance Sensor,Used make MCL algorithm,https://www.vexrobotics.com/276-4852.html,49.69,4,211.93
+276-4359,1x3x1x35 Aluminum C- Channel (6-pack),"Structure, we used 3 wides to save money by cutting them in half to make L-Channels","https://www.vexrobotics.com/v5-structure.html?config=371-1984,372-1990,374-1998",42.99,1,45.84
+217-6350,"Straight Flex Wheel (1.625"" OD x 1/2"" WD, 1/2"" Hex Bore, 30A)",Used for intake,"https://www.vexrobotics.com/vrc-flex-wheels.html?config=831-3245,834-3256",2.99,4,12.75
+217-7947,"1/2"" VersaHex Adapters v2 (1/4"" Square Bore, 1/4"" Long) (8 Pack)",Adapters for flex wheels,https://www.vexrobotics.com/vrc-flex-wheels.html?config=831-3245,4.99,2,10.64
+217-6353,"Straight Flex Wheel (2"" OD x 1/2"" WD, 1/2"" Hex Bore, 30A)",Also for intake,https://www.vexrobotics.com/vrc-flex-wheels.html?config=831-3245,2.99,4,12.75
+276-2214,Tank Tread Upgrade Kit,Ramp,https://www.vexrobotics.com/276-2214.html,29.99,2,63.95
+276-9044,2” Omni-Directional Wheel (4-Pack),Used for odometry,"https://www.vexrobotics.com/wheels.html?config=535-2349,537-3416",23.59,1,25.15
+276-3521,High Strength Shaft Bearing (10-Pack),Bearing for HS Shafts,https://www.vexrobotics.com/hs-hardware.html,9.69,1,10.33
+276-8383,High Strength Pillow Block (10-pack),Used for intake,https://www.vexrobotics.com/hs-hardware.html,9.69,1,10.33
+276-7465,"24"" High Strength Shaft (2-Pack)",Ramp,https://www.vexrobotics.com/hs-hardware.html,18.49,1,19.71
+276-3441,High Strength Shaft Spacer Kit,Spacers for Ramp,https://www.vexrobotics.com/hs-hardware.html,11.89,2,25.36
+276-6050,Rotation Sensor,Used for odometry,https://www.vexrobotics.com/276-6050.html,42.99,2,91.68
+276-4855,Inertial Sensor,IMU for programming,https://www.vexrobotics.com/276-4855.html,53.99,1,57.57
+276-2290,1x5x1x25 Aluminum C- Channel (6-pack),Used to make L-channels to save money,"https://www.vexrobotics.com/v5-structure.html?config=371-1984,372-1990,374-1999",47.39,1,50.53
+276-8328,"16T Sprocket, 6P (8-pack)",Ramp sprockets,"https://www.vexrobotics.com/v5-sprockets.html?config=792-2972,794-2976",26.79,1,28.56
+276-2172,Additional High Strength Chain,Ramp chain,"https://www.vexrobotics.com/v5-sprockets.html?config=792-2973,796-2989",29.99,4,127.91
+276-3878,18T High Strength Sprocket (4-Pack),Ramp sprockets,"https://www.vexrobotics.com/v5-sprockets.html?config=792-2973,795-2983",15.49,1,16.52
