@@ -1,3 +1,7 @@
+**CAD File Links:**
+.STEP: https://drive.google.com/file/d/1yDUuP2cudNpzWpRV2s06OEadqm3eEyIF/view
+.f3v: https://drive.google.com/file/d/1WI6u0gUHf2n72OcZcZaSSllVfbs_85b5/view
+
 **Project Description:**
 Our project was a front-to-back robot for the VEX V5 2025-2026 Push Back season. The robot's design is to have a floating intake at the front to intake blocks, use a ramp to bring them up with flaps, and score them into the long goal. We also use a double-park mechanism to park over a 1-inch barrier. We use pneumatics, coding, and mechanical building techniques to enhance our robot's capabilities in competition.
 
