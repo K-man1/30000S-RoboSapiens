@@ -2,6 +2,7 @@
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "pros/misc.h"
+#include "pros/imu.hpp"
 #include "pros/motors.hpp"
 #include "pros/rtos.hpp"
 #include "pros/adi.hpp"
@@ -15,8 +16,8 @@ pros::MotorGroup leftMotors({-8, 9, 10},
                             pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
 pros::MotorGroup rightMotors({3, -2, -1}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
-// Inertial Sensor on port 10 
-// pros::Imu imu(10);
+// Inertial Sensor on port 10
+pros::Imu imu(10);
 
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
@@ -62,11 +63,11 @@ lemlib::ControllerSettings angularController(6, // proportional gain (kP)
 );
 
 // sensors for odometry
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
+lemlib::OdomSensors sensors(&vertical, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            nullptr, // horizontal tracking wheel
+                            &horizontal, // horizontal tracking wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
-                            nullptr // inertial sensor
+                            &imu // inertial sensor
 );
 
 // input curve for throttle input during driver control
@@ -83,13 +84,6 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
 
 // create the chassis
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
-
-// Pneumatic A initialization
-pros::adi::DigitalOut park('A');
-
-// Pneumatic H initialization
-pros::adi::DigitalOut hopper('H');
-
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -124,7 +118,6 @@ void initialize() {
             pros::delay(50);
         }
     });
-    // park already defined above
 
 }
 
@@ -148,15 +141,7 @@ ASSET(path2loader2_txt); // '.' replaced with "_" to make c++ happy
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
-    pros::Motor motor2(2);
-    motor2.move_velocity(600);
-    chassis.setPose(0, 0, 0);
-    chassis.moveToPose(5, 35.21367, 124.6767, 5000);
-
-    // chassis.moveToPose(-15, 28, 125, 5000);
-    // chassis.moveToPose(-45, 28, 125, 5000);
-
-    // chassis.follow(path2loader2_txt, 15, 40000);
+    chassis.setPose(0, 0, 0); // reset the robot position to x:0, y:0, heading: 0
 }
 
 /**
