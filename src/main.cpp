@@ -2,7 +2,6 @@
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "pros/misc.h"
-#include "pros/imu.hpp"
 #include "pros/motors.hpp"
 #include "pros/rtos.hpp"
 #include "pros/adi.hpp"
@@ -10,6 +9,11 @@
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
+// user-operated motors
+// Port 1 = Scorer
+pros::Motor scorer(-1);
+// Port 2 & 3 = Intake (use MotorGroup to control both together)
+pros::MotorGroup intake({2, 3});
 
 // motor groups
 pros::MotorGroup leftMotors({-8, 9, 10},
@@ -133,7 +137,7 @@ void competition_initialize() {}
 
 // get a path used for pure pursuit
 // this needs to be put outside a function
-ASSET(path2loader2_txt); // '.' replaced with "_" to make c++ happy
+// ASSET(path2loader2_txt); // '.' replaced with "_" to make c++ happy
 
 /**
  * Runs during auto
@@ -155,6 +159,24 @@ void opcontrol() {
     int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
     chassis.arcade(leftY, rightX);
+
+    // Scorer control (Port 1)
+    // - Turn forward when L2 is pressed
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+        scorer.move(127);
+    } else {
+        scorer.move(0);
+    }
+
+    // Intake control (Ports 2 & 3)
+    // Priority: R1 (reverse) > R2 or L2 (forward)
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        intake.move(-127);
+    } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2) || controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+        intake.move(127);
+    } else {
+        intake.move(0);
+    }
 
     pros::delay(10);
 }
