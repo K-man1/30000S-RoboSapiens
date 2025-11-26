@@ -11,14 +11,14 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // user-operated motors
 // Port 1 = Scorer
-pros::Motor scorer(-1);
+pros::Motor scorer(1);
 // Port 2 & 3 = Intake (use MotorGroup to control both together)
-pros::MotorGroup intake({2, 3});
+pros::MotorGroup intake({-2, -3});
 
 // motor groups
-pros::MotorGroup leftMotors({-8, 9, 10},
+pros::MotorGroup leftMotors({-18, 19, 20},
                             pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
-pros::MotorGroup rightMotors({3, -2, -1}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+pros::MotorGroup rightMotors({13, -12, -11}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 // Inertial Sensor on port 10
 pros::Imu imu(10);
