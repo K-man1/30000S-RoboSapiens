@@ -11,14 +11,14 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // user-operated motors
 // Port 1 = Scorer
-pros::Motor scorer(1);
+pros::Motor scorer(3);
 // Port 2 & 3 = Intake (use MotorGroup to control both together)
-pros::MotorGroup intake({-2, -3});
+pros::MotorGroup intake({-1, 2});
 
 // motor groups
-pros::MotorGroup leftMotors({-18, 19, 20},
+pros::MotorGroup leftMotors({11, -12, 13},
                             pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
-pros::MotorGroup rightMotors({13, -12, -11}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+pros::MotorGroup rightMotors({-14, 15, -16}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 // Inertial Sensor on port 10
 pros::Imu imu(10);
@@ -164,7 +164,13 @@ void opcontrol() {
     // - Turn forward when L2 is pressed
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
         scorer.move(127);
-    } else {
+    } 
+    
+    else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+        scorer.move(-127);
+    }
+
+    else {
         scorer.move(0);
     }
 
