@@ -15,35 +15,46 @@ pros::Motor scorer(3);
 // Port 2 & 3 = Intake (use MotorGroup to control both together)
 pros::MotorGroup intake({-1, 2});
 
+pros::ADIDigitalOut double_park('E');
+doubleParkState = true
+pros::ADIDigitalOut will('A');
+willState = true
+pros::ADIDigitalOut middle_goal('B');
+
+pros::ADIDigitalOut right_wing('C');
+right_wing_state = true
+pros::ADIDigitalOut left_wing('D');
+left_wing_state = true
+
 // motor groups
 pros::MotorGroup leftMotors({11, -12, 13},
                             pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
 pros::MotorGroup rightMotors({-14, 15, -16}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 // Inertial Sensor on port 20
-pros::Imu imu(20);
+pros::Imu imu(17);
 
 // tracking wheels
 
 // vertical tracking wheel encoder. Rotation sensor, port 19, reversed
-pros::Rotation verticalEnc(19);
+pros::Rotation verticalEnc(-10);
 
 // vertical tracking wheel. 2.75" diameter, 0" offset
-lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_2, 0);
+lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_2, 0.25);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
-                              10, // 10 inch track width
+                              11.5, // 10 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 2.75" omnis
                               450, // drivetrain rpm is 450
                               8 // horizontal drift is 8. If we had traction wheels, it would have been 8
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(10, // proportional gain (kP)
+lemlib::ControllerSettings linearController(2, // proportional gain (kP)
                                             0, // integral gain (kI)
-                                            3, // derivative gain (kD)
+                                            0, // derivative gain (kD)
                                             3, // anti windup
                                             1, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
@@ -97,8 +108,8 @@ void initialize() {
     
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
+    pros::delay(500);
     chassis.setPose(0, 0, 0); // reset the robot position to x:0, y:0, heading: 0
-
     // the default rate is 50. however, if you need to change the rate, you
     // can do the following.
     // lemlib::bufferedStdout().setRate(...);
@@ -114,8 +125,12 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // print vertical encoder rotation (rotation sensor position)
+            pros::lcd::print(3, "Vert: %f", (double)verticalEnc.get_position());
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            pros::lcd::print(7, "Rotation Sensor: %i", verticalEnc.get_position());
+            pros::delay(10); // delay to save resources. DO NOT REMOVE
             // delay to save resources
             pros::delay(50);
         }
@@ -143,7 +158,11 @@ void competition_initialize() {}
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
-    chassis.setPose(0, 0, 0); // reset the robot position to x:0, y:0, heading: 0
+    pros::lcd::print(4, "Automous function is running");
+        // Move forward 24 inches (2 feet).
+        // Use a timeout (milliseconds) and set async=false so this call blocks
+        // until the motion completes or the timeout elapses.
+        chassis.moveToPoint(0, 24, 10000, {}, false);
 }
 
 /**
@@ -156,33 +175,63 @@ void opcontrol() {
     // drivetrain
     int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-    chassis.arcade(leftY, rightX);
+    chassis.arcade(leftY, -rightX);
 
     // Scorer control (Port 1)
     // - Turn forward when L2 is pressed
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
         scorer.move(127);
+        intake.move(127);
     } 
     
     else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
         scorer.move(-127);
     }
 
+    else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        intake.move(-127);
+    } 
+    
+    else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        intake.move(127);
+        scorer.move(-10); // stop scorer when intaking
+    }
+
     else {
+        intake.move(0);
         scorer.move(0);
     }
 
-    // Intake control (Ports 2 & 3)
-    // Priority: R1 (reverse) > R2 or L2 (forward)
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-        intake.move(-127);
-    } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2) || controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-        intake.move(127);
-        scorer.move(-20); // stop scorer when intaking
-    } else {
-        intake.move(0);
+    if (controller.get_digital(pros:E_CONTROLLER_DIGITAL_B))
+    {
+        doubleParkState = !doubleParkState;
+        double_park.set_value(doubleParkState);
     }
 
+    if (controller.get_digital(pros:E_CONTROLLER_DIGITAL_Y))
+    {
+        willState = !willState;
+        will.set_value(willState);
+    }
+
+    if (controller.get_digital(pros:E_CONTROLLER_DIGITAL_L1))
+    {
+        middle_goal.set_value(true);
+        scorer.move(64);
+        intake.move(127);
+    }
+
+    if (controller.get_digital(pros:E_CONTROLLER_DIGITAL_RIGHT))
+    {
+        right_wing_state = !right_wing_state;
+        right_wing.set_value(right_wing_state);
+    }
+
+    if (controller.get_digital(pros:E_CONTROLLER_DIGITAL_LEFT))
+    {
+        left_wing_state = !left_wing_state;
+        left_wing.set_value(left_wing_state);
+    }
     pros::delay(10);
 }
 
