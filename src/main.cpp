@@ -15,16 +15,16 @@ pros::Motor scorer(3);
 // Port 2 & 3 = Intake (use MotorGroup to control both together)
 pros::MotorGroup intake({-1, 2});
 
-pros::ADIDigitalOut double_park('E');
-doubleParkState = true
-pros::ADIDigitalOut will('A');
-willState = true
-pros::ADIDigitalOut middle_goal('B');
+pros::adi::DigitalOut double_park('H');
+bool doubleParkState = true;
+pros::adi::DigitalOut will('A');
+bool willState = true;
+pros::adi::DigitalOut middle_goal('B');
 
-pros::ADIDigitalOut right_wing('C');
-right_wing_state = true
-pros::ADIDigitalOut left_wing('D');
-left_wing_state = true
+pros::adi::DigitalOut right_wing('C');
+bool right_wing_state = true;
+pros::adi::DigitalOut left_wing('D');
+bool left_wing_state = true;
 
 // motor groups
 pros::MotorGroup leftMotors({11, -12, 13},
@@ -202,32 +202,32 @@ void opcontrol() {
         scorer.move(0);
     }
 
-    if (controller.get_digital(pros:E_CONTROLLER_DIGITAL_B))
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B))
     {
         doubleParkState = !doubleParkState;
         double_park.set_value(doubleParkState);
     }
 
-    if (controller.get_digital(pros:E_CONTROLLER_DIGITAL_Y))
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
     {
         willState = !willState;
         will.set_value(willState);
     }
 
-    if (controller.get_digital(pros:E_CONTROLLER_DIGITAL_L1))
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
     {
         middle_goal.set_value(true);
         scorer.move(64);
         intake.move(127);
     }
 
-    if (controller.get_digital(pros:E_CONTROLLER_DIGITAL_RIGHT))
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))
     {
         right_wing_state = !right_wing_state;
         right_wing.set_value(right_wing_state);
     }
 
-    if (controller.get_digital(pros:E_CONTROLLER_DIGITAL_LEFT))
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
     {
         left_wing_state = !left_wing_state;
         left_wing.set_value(left_wing_state);
