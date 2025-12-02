@@ -21,14 +21,11 @@ pros::adi::DigitalOut will('A');
 bool willState = true;
 pros::adi::DigitalOut middle_goal('B');
 
-pros::adi::DigitalOut right_wing('C');
-bool right_wing_state = true;
-pros::adi::DigitalOut left_wing('D');
-bool left_wing_state = true;
+pros::adi::DigitalOut wing('C');
+bool wing_state = true;
 
 // motor groups
-pros::MotorGroup leftMotors({11, -12, 13},
-                            pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
+pros::MotorGroup leftMotors({11, -12, 13}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
 pros::MotorGroup rightMotors({-14, 15, -16}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 // Inertial Sensor on port 20
@@ -37,7 +34,7 @@ pros::Imu imu(17);
 // tracking wheels
 
 // vertical tracking wheel encoder. Rotation sensor, port 19, reversed
-pros::Rotation verticalEnc(-10);
+pros::Rotation verticalEnc(10);
 
 // vertical tracking wheel. 2.75" diameter, 0" offset
 lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_2, 0.25);
@@ -52,28 +49,32 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(2, // proportional gain (kP)
-                                            0, // integral gain (kI)
-                                            0, // derivative gain (kD)
-                                            3, // anti windup
-                                            1, // small error range, in inches
-                                            100, // small error range timeout, in milliseconds
-                                            3, // large error range, in inches
-                                            500, // large error range timeout, in milliseconds
-                                            20 // maximum acceleration (slew)
+lemlib::ControllerSettings linearController(
+    5.0,   // kP  (same)
+    0.0,   // kI
+    1.0,   // kD  <-- add small D to damp approach
+    3,     // anti windup (keep)
+    1,     // small error range, inches
+    100,   // small error range timeout ms
+    3,     // large error range, inches
+    500,   // large error range timeout ms
+    12     // max acceleration (slew) <-- lower from 20 to 12
 );
 
+
 // angular motion controller
-lemlib::ControllerSettings angularController(6, // proportional gain (kP)
-                                             0, // integral gain (kI)
-                                             3, // derivative gain (kD)
-                                             20, // anti windup
-                                             1, // small error range, in degrees
-                                             200, // small error range timeout, in milliseconds
-                                             5, // large error range, in degrees
-                                             500, // large error range timeout, in milliseconds
-                                             0 // maximum acceleration (slew)
+lemlib::ControllerSettings angularController(
+    2,  // kP  << drastically lower
+    0.0,   // kI
+    5,   // kD  << strong damping
+    20,
+    1,
+    200,
+    5,
+    500,
+    0
 );
+
 
 // sensors for odometry
 lemlib::OdomSensors sensors(&vertical, // vertical tracking wheel
@@ -106,37 +107,23 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
  */
 void initialize() {
     
-    pros::lcd::initialize(); // initialize brain screen
-    chassis.calibrate(); // calibrate sensors
-    pros::delay(500);
-    chassis.setPose(0, 0, 0); // reset the robot position to x:0, y:0, heading: 0
-    // the default rate is 50. however, if you need to change the rate, you
-    // can do the following.
-    // lemlib::bufferedStdout().setRate(...);
-    // If you use bluetooth or a wired connection, you will want to have a rate of 10ms
-
-    // for more information on how the formatting for the loggers
-    // works, refer to the fmtlib docs
-
-    // thread to for brain screen and position logging
+    pros::lcd::initialize();
+    imu.reset();
+    pros::delay(1500);          // wait for IMU to stabilize
+    chassis.setPose(0, 0, 0);   // reset robot pose
+    
     pros::Task screenTask([&]() {
-        while (true) {
-            // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            // print vertical encoder rotation (rotation sensor position)
-            pros::lcd::print(3, "Vert: %f", (double)verticalEnc.get_position());
-            // log position telemetry
-            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
-            pros::lcd::print(7, "Rotation Sensor: %i", verticalEnc.get_position());
-            pros::delay(10); // delay to save resources. DO NOT REMOVE
-            // delay to save resources
+        while(true) {
+            auto pose = chassis.getPose();
+            pros::lcd::print(0, "X: %f", pose.x);
+            pros::lcd::print(1, "Y: %f", pose.y);
+            pros::lcd::print(2, "Theta: %f", pose.theta);
             pros::delay(50);
         }
     });
-
 }
+
+
 
 /**
  * Runs while the robot is disabled
@@ -162,7 +149,8 @@ void autonomous() {
         // Move forward 24 inches (2 feet).
         // Use a timeout (milliseconds) and set async=false so this call blocks
         // until the motion completes or the timeout elapses.
-        chassis.moveToPoint(0, 24, 10000, {}, false);
+        chassis.setPose(0, 0, 0);
+        chassis.turnToHeading(90, 10000);
 }
 
 /**
@@ -202,13 +190,13 @@ void opcontrol() {
         scorer.move(0);
     }
 
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B))
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
     {
         doubleParkState = !doubleParkState;
         double_park.set_value(doubleParkState);
     }
 
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y))
     {
         willState = !willState;
         will.set_value(willState);
@@ -216,22 +204,22 @@ void opcontrol() {
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
     {
-        middle_goal.set_value(true);
         scorer.move(64);
         intake.move(127);
+        middle_goal.set_value(true);
+    }
+    else
+    {
+        middle_goal.set_value(false);
     }
 
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT))
     {
-        right_wing_state = !right_wing_state;
-        right_wing.set_value(right_wing_state);
+        wing_state = !wing_state;
+        wing.set_value(wing_state);
     }
 
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
-    {
-        left_wing_state = !left_wing_state;
-        left_wing.set_value(left_wing_state);
-    }
+    
     pros::delay(10);
 }
 
