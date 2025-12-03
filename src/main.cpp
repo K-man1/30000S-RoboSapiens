@@ -49,30 +49,27 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(
-    5.0,   // kP  (same)
-    0.0,   // kI
-    1.0,   // kD  <-- add small D to damp approach
-    3,     // anti windup (keep)
-    1,     // small error range, inches
-    100,   // small error range timeout ms
-    3,     // large error range, inches
-    500,   // large error range timeout ms
-    12     // max acceleration (slew) <-- lower from 20 to 12
+lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              3, // derivative gain (kD)
+                                              3, // anti windup
+                                              1, // small error range, in inches
+                                              100, // small error range timeout, in milliseconds
+                                              3, // large error range, in inches
+                                              500, // large error range timeout, in milliseconds
+                                              20 // maximum acceleration (slew)
 );
 
-
-// angular motion controller
-lemlib::ControllerSettings angularController(
-    2,  // kP  << drastically lower
-    0.0,   // kI
-    5,   // kD  << strong damping
-    20,
-    1,
-    200,
-    5,
-    500,
-    0
+// angular PID controller
+lemlib::ControllerSettings angular_controller(0.5, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              20, // derivative gain (kD)
+                                              3, // anti windup
+                                              1, // small error range, in degrees
+                                              100, // small error range timeout, in milliseconds
+                                              3, // large error range, in degrees
+                                              500, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)
 );
 
 
@@ -97,8 +94,11 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
 );
 
 // create the chassis
-lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
-
+lemlib::Chassis chassis(drivetrain, // drivetrain settings
+                        lateral_controller, // lateral PID settings
+                        angular_controller, // angular PID settings
+                        sensors // odometry sensors
+);
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -106,19 +106,17 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    
-    pros::lcd::initialize();
-    imu.reset();
-    pros::delay(1500);          // wait for IMU to stabilize
-    chassis.setPose(0, 0, 0);   // reset robot pose
-    
-    pros::Task screenTask([&]() {
-        while(true) {
-            auto pose = chassis.getPose();
-            pros::lcd::print(0, "X: %f", pose.x);
-            pros::lcd::print(1, "Y: %f", pose.y);
-            pros::lcd::print(2, "Theta: %f", pose.theta);
-            pros::delay(50);
+    pros::lcd::initialize(); // initialize brain screen
+    chassis.calibrate(); // calibrate sensors
+    // print position to brain screen
+    pros::Task screen_task([&]() {
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // delay to save resources
+            pros::delay(20);
         }
     });
 }
@@ -145,12 +143,10 @@ void competition_initialize() {}
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
-    pros::lcd::print(4, "Automous function is running");
-        // Move forward 24 inches (2 feet).
-        // Use a timeout (milliseconds) and set async=false so this call blocks
-        // until the motion completes or the timeout elapses.
-        chassis.setPose(0, 0, 0);
-        chassis.turnToHeading(90, 10000);
+    // set position to x:0, y:0, heading:0
+    chassis.setPose(0, 0, 0);
+    // turn to face heading 90 with a very long timeout
+    chassis.turnToHeading(90, 100000);
 }
 
 /**
