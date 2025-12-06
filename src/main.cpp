@@ -147,11 +147,10 @@ void autonomous() {
     // set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
     // turn to face heading 90 with a very long timeout
-    chassis.moveToPoint(0, -17, 5000, {.forwards = false});
-    chassis.moveToPoint(12, -27.5, 5000, {.forwards = false});
-
-
-
+    chassis.moveToPoint(0, -26, 2000, {.forwards = false});
+    intake.move(100);
+    will.set_value(true);
+    chassis.moveToPoint(16, -28, 2000, {.forwards = false});
 }
 
 /**
