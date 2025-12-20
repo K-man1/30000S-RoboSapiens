@@ -6,6 +6,7 @@
 #include "pros/rtos.hpp"
 #include "pros/adi.hpp"
 
+
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -100,6 +101,9 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
                         angular_controller, // angular PID settings
                         sensors // odometry sensors
 );
+
+lemlib::Pose pose = chassis.getPose();
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -113,9 +117,7 @@ void initialize() {
     pros::Task screen_task([&]() {
         while (true) {
             // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            
             // delay to save resources
             pros::delay(20);
         }
@@ -146,11 +148,45 @@ void competition_initialize() {}
 void autonomous() {
     // set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
-    // turn to face heading 90 with a very long timeout
-    chassis.moveToPoint(0, -26, 2000, {.forwards = false});
+    
+    
+    chassis.moveToPoint(0, -29, 1000, {.forwards = false, .maxSpeed = 80}); // forward to laoder 
+    chassis.turnToHeading(-85, 750); //turn to align to loader
     intake.move(100);
     will.set_value(true);
-    chassis.moveToPoint(16, -28, 2000, {.forwards = false});
+    chassis.moveToPoint(30, -31, 1500, {.forwards = false, .maxSpeed = 70});
+    //move forward to loader and get blocks
+    chassis.moveToPoint(-25, -33.5, 2000); //from loader to goal
+    chassis.waitUntil(20);.         
+    scorer.move(127);
+    pros::delay(4000);
+    will.set_value(false);
+    //wings time
+    chassis.moveToPose(chassis.getPose().x + 30, -45, -90, 2000);
+
+    chassis.moveToPoint(chassis.getPose().x - 30, chassis.getPose().y + 20, 2000, {.forwards = false});
+
+    // //push
+    // chassis.moveToPoint(chassis.getPose().x + 6, chassis.getPose().y, 500, {.forwards = false});
+    // pros::delay(500);
+    // will.set_value(true);
+    // chassis.moveToPoint(chassisddddrrrrrtghuuh`.getPose().x - 6, chassis.getPose().y, 500, {.minSpeed = 127});
+    // pros::delay(500);
+// //BTW AT THIS POINT THE ROBOT IS AT X = -8 AND Y = -30 THETA = 90
+//     chassis.moveToPoint(-5, chassis.getPose().y, 1500, {.forwards = false}); //back away from goal
+//     will.set_value(false);
+//     intake.move(100);
+//     scorer.move(-20);
+//     chassis.turnToHeading(115, 1000);
+//     chassis.moveToPoint(-30, -2, 2000, {.forwards = false, .maxSpeed = 75});
+//     chassis.moveToPose(-35, 20, 115, 1000);
+//     chassis.moveToPoint(-40, 25, 1000);
+//     // chassis.turnToHeading(-135, 4000);
+//     // chassis.moveToPoint(-40, 15, 2000);
+//     pros::delay(1000);
+//     scorer.move(80);
+//     middle_goal.set_value(true);
+
 }
 
 /**
