@@ -222,7 +222,7 @@ void opcontrol() {
         // outtake everythin
         else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             intake.move(-127);
-            scorer.move(-127);
+            scorer.move(-10);
         } 
         
         // just intake
