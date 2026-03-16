@@ -1,9 +1,12 @@
 [submodule "7 ball"]
 	path = 7 ball
 	url = https://github.com/K-man1/7-ball
+	branch = main
 [submodule "skills"]
 	path = skills
 	url = https://github.com/K-man1/skills
+	branch = main
 [submodule "solo awp"]
 	path = solo awp
 	url = https://github.com/K-man1/solo-awp
+	branch = main
