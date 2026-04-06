@@ -7,7 +7,7 @@ Here's the link to the CAD: https://drive.google.com/drive/u/0/folders/164qmBfBF
 ## Pics
 <img width="762" height="705" alt="image" src="https://github.com/user-attachments/assets/fa883e7a-80e3-4560-a074-952b1180c18d" />
 <img width="2268" height="4032" alt="image" src="https://github.com/user-attachments/assets/793e1a93-0b84-4e1c-bec1-70a32e76f112" />
-<img width="2268" height="4032" alt="Screenshot 2026-04-06 at 4 42 44 PM" src="https://github.com/user-attachments/assets/16df48e7-167a-431f-8a22-882e8f27eb41" />
+<img width="819" height="585" alt="image" src="https://github.com/user-attachments/assets/ebddb78d-c9f9-41f3-b4fb-69b1bb20a3e9" />
 
 
 ## Setup and Libraries
