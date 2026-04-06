@@ -1,6 +1,9 @@
 # 2025 - 2026 VEX V5 Robotics Compeition Push Back Autos for 30000S Robo Sapiens
 This is the final iteration of our autos, both skills and match, for the 2025-2026 season.
 
+## CAD File
+Here's the link to the CAD: https://drive.google.com/drive/u/0/folders/164qmBfBFWHC4T5Vt1AodXppCjz-YtLmR
+
 ## Setup and Libraries
 For this season we used PROS and Lemlib.
 
