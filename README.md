@@ -4,6 +4,12 @@ This is the final iteration of our autos, both skills and match, for the 2025-20
 ## CAD File
 Here's the link to the CAD: https://drive.google.com/drive/u/0/folders/164qmBfBFWHC4T5Vt1AodXppCjz-YtLmR
 
+## Pics
+<img width="762" height="705" alt="image" src="https://github.com/user-attachments/assets/fa883e7a-80e3-4560-a074-952b1180c18d" />
+<img width="2268" height="4032" alt="image" src="https://github.com/user-attachments/assets/793e1a93-0b84-4e1c-bec1-70a32e76f112" />
+<img width="137" height="140" alt="Screenshot 2026-04-06 at 4 42 44 PM" src="https://github.com/user-attachments/assets/16df48e7-167a-431f-8a22-882e8f27eb41" />
+
+
 ## Setup and Libraries
 For this season we used PROS and Lemlib.
 
